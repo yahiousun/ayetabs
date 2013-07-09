@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>jQuery Ayetabs - A easy jQuery tabs plugin</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery.ayetabs.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.ayetabs-byindex').ayetabs({
+		trigger: 'mouseenter'
+	});
+})
+</script>
+</head>
+<body>
+<div class="ayetabs ayetabs-byindex">
+	<ul class="ayetabs-labels">
+		<li>label 1</li>
+		<li>label 2</li>
+		<li>label 3</li>
+		<li>label 4</li>
+		<li>label 5</li>
+	</ul>
+	<ul class="ayetabs-contents">
+		<li>content 1</li>
+		<li>content 2</li>
+		<li>content 3</li>
+		<li>content 4</li>
+		<li>content 5</li>
+	</ul>
+</div>
+</body>
+</html>
