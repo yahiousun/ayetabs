@@ -1,7 +1,7 @@
 /*
  * jQuery ayetabs
- * ver 0.2 alpha
- * 2013-07-10
+ * ver 0.21 alpha
+ * 2013-07-11
  * by yahiousun
  * license MIT
 */
@@ -21,12 +21,12 @@
 						label: settings.label,
 						contents: settings.contents,
 						content: settings.content,
-						active: settings.active,
-						effect: settings.effect,
+						current: settings.current,
+						transition: settings.transition,
 						easing: settings.easing,
 						duration: settings.duration,
 						trigger: settings.trigger,
-						default: settings.default,
+						active: settings.active,
 						limited: settings.limited
 					});
 					data = self.data('ayetabs'); // get data
@@ -47,6 +47,27 @@
 				} else {
 					$.error('Parameter limited '+data.limited+' is not valid on jQuery.ayetabs.');
 				};
+				
+				function synctab(target, index) { // sync tab
+					var lw = parseInt(target.outerWidth()); // Libel width
+					var ol = new Number; // Offset left
+					if (index===0) {
+						ol = 0;
+					} else if ((self.find(data.labels).find(data.label).length-index) < (data.limited)) {
+						ol = lw*(self.find(data.labels).find(data.label).length-data.limited)
+					} else { // move libels
+						if ($(this).prevAll(data.content).hasClass(data.current)) {  // Forward
+							ol = lw*index;
+						} else if (target.nextAll(data.content).hasClass(data.current) || target.hasClass(data.current)) { // Back or Is current active
+							ol = lw*(index-1);
+						} else { // If first run
+							ol = lw*index;
+						}
+					}
+					self.find(data.labels).stop(true).animate({
+						'margin-left': -ol
+					}, data.duration, data.easing)
+				}
 
 				switch (data.mode) {
 					case 'id': ;
@@ -58,34 +79,35 @@
 							case 'slide': ;
 							break;
 							default: 
-								self.find(data.labels).find(data.label).each(function(index){
-									$(this).bind(data.trigger+'.ayetabs', function(){
+								self.find(data.labels).find(data.label).each(function(index) {
+									$(this).bind(data.trigger+'.ayetabs', function() {
 										if (limited) {
-											// do something here
+											synctab($(this), index);
 										}
-										$(this).addClass(data.active).siblings(data.label).removeClass(data.active);
-										self.find(data.contents).find(data.content+'.'+data.active).css('display', 'none').removeClass(data.active);
-										self.find(data.contents).find(data.content).eq(index).css('display', 'block').addClass(data.active);
+										$(this).addClass(data.current).siblings(data.label).removeClass(data.current); // toggle class
+										// move contents
+										self.find(data.contents).find(data.content+'.'+data.current).css('display', 'none').removeClass(data.current);
+										self.find(data.contents).find(data.content).eq(index).css('display', 'block').addClass(data.current);
 										return false;
 									})
 								});
 						};
-						if (self.find(data.labels).find(data.label+'.'+data.active).length==0) { // if not initialized yet
-							if (typeof(data.default)==='number') {
-								if (/^-?\d+$/.test(data.default)) {
-									if (Math.abs(data.default) < self.find(data.labels).find(data.label).length){
-										self.find(data.labels).find(data.label).eq(data.default).trigger(data.trigger);
+						if (self.find(data.labels).find(data.label+'.'+data.current).length==0) { // if not initialized yet
+							if (typeof(data.active)==='number') {
+								if (/^-?\d+$/.test(data.active)) {
+									if (Math.abs(data.active) < self.find(data.labels).find(data.label).length){
+										self.find(data.labels).find(data.label).eq(data.active).trigger(data.trigger);
 									} else {
-										$.error('Parameter default '+data.default+' is out of range on jQuery.ayetabs.');
+										$.error('Parameter default '+data.active+' is out of range on jQuery.ayetabs.');
 									}
 								} else {
-									$.error('Parameter default '+data.default+' is not an integer on jQuery.ayetabs.');
+									$.error('Parameter default '+data.active+' is not an integer on jQuery.ayetabs.');
 								}		
 							} else if (true) {
-								$.error('Parameter default '+data.default+' is not an integer on jQuery.ayetabs.');
+								$.error('Parameter default '+data.active+' is not an integer on jQuery.ayetabs.');
 							};
 						} else {
-							self.find(data.labels).find(data.label+'.'+data.active).trigger(data.trigger);
+							self.find(data.labels).find(data.label+'.'+data.current).trigger(data.trigger);
 						}
 					break;
 				}
@@ -129,7 +151,7 @@
 				var data = self.data('ayetabs'); // data flag
 				if(data){ // if initialized, remove event handler, data and class
 					self.removeData('ayetabs');
-					self.find(data.labels).find(data.label).unbind();
+					self.find(data.labels).find(data.label).unbind(data.trigger+'.ayetabs');
 				}
 			})
 		},
@@ -160,16 +182,16 @@
 	// default settings
 	$.fn.ayetabs.defaults = {
 		mode: 'index', // plugin mode, String, "index" or "id".
-		labels: '.ayetabs-labels',
-		label: 'li',
-		contents: '.ayetabs-contents',
-		content: 'li',
-		active: 'ayetabs-active',
-		effect: '',
-		easing: 'swing',
-		duration: 500,
-		trigger: 'click',
-		default: 0, // default open index, set false if you don't want it.
-		limited: 0
+		labels: '.ayetabs-labels', // libels container element selector
+		label: 'li', // libel element selector
+		contents: '.ayetabs-contents', // contents container element selector
+		content: 'li', // content element selector
+		current: 'ayetabs-active', // current actived lebel and content's class 
+		transition: '', // transition effect
+		easing: 'swing', // easing method
+		duration: 500, // animate duration
+		trigger: 'click', // event trigger
+		active: 0, // default active lebel's index, set false if you don't want it.
+		limited: 0 // limited lebels number, set 0 or false if you don't want it.
 	}
 })(jQuery);
