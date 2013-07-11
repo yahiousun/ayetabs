@@ -56,13 +56,11 @@
 					} else if ((self.find(data.labels).find(data.label).length-index) < (data.limited)) {
 						ol = lw*(self.find(data.labels).find(data.label).length-data.limited)
 					} else { // move libels
-						if ($(this).prevAll(data.content).hasClass(data.current)) {  // Forward
-							ol = lw*index;
-						} else if (target.nextAll(data.content).hasClass(data.current) || target.hasClass(data.current)) { // Back or Is current active
+						if (target.nextAll(data.label).hasClass(data.current) || target.hasClass(data.current)) { // Back or Is current active
 							ol = lw*(index-1);
-						} else { // If first run
+						} else {  // Forward  // if (target.prevAll(data.label).hasClass(data.current))
 							ol = lw*index;
-						}
+						} 
 					}
 					self.find(data.labels).stop(true).animate({
 						'margin-left': -ol
@@ -92,7 +90,7 @@
 									})
 								});
 						};
-						if (self.find(data.labels).find(data.label+'.'+data.current).length==0) { // if not initialized yet
+						if (self.find(data.labels).find(data.label+'.'+data.current).length===0) { // if not initialized yet
 							if (typeof(data.active)==='number') {
 								if (/^-?\d+$/.test(data.active)) {
 									if (Math.abs(data.active) < self.find(data.labels).find(data.label).length){
