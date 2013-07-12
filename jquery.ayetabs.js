@@ -230,17 +230,17 @@
 	// default settings
 	$.fn.ayetabs.defaults = {
 		mode: 'index', // plugin mode, String, "index" or "id".
-		labels: '.ayetabs-labels', // libels container element selector
-		label: 'li', // libel element selector
-		contents: '.ayetabs-contents', // contents container element selector
-		content: 'li', // content element selector
-		current: 'ayetabs-active', // current actived lebel and content's class
-		transition: '', // transition effect
-		easing: 'swing', // easing method
-		duration: 500, // animate duration
-		trigger: 'click', // event trigger
+		labels: '.ayetabs-labels', // libels container element selector.
+		label: 'li', // libel element selector.
+		contents: '.ayetabs-contents', // contents container element selector.
+		content: 'li', // content element selector.
+		current: 'ayetabs-active', // current actived lebel and content's class.
+		transition: '', // transition effect.
+		easing: 'swing', // easing method.
+		duration: 500, // animate duration.
+		trigger: 'click', // event trigger.
 		active: 0, // default active lebel's index, set false if you don't want it.
 		synctab: 0, // sync tab lebels number, set 0 or false if you don't want it.
-		visited: 'ayetabs-visited', // synctab visited flag, please do not change it or style it, unless you know what you are doing.
+		visited: 'ayetabs-visited' // synctab visited flag, please do not change it or style it, unless you know what you are doing.
 	}
 })(jQuery);
