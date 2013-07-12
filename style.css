@@ -58,11 +58,11 @@ body {
 	box-shadow:  rgba(0, 0, 0, .3) 0 1px 5px;
 }
 .ayetabs-byindex .ayetabs-labels {
-	width:  1500px;
+	width:  1875px;
 	height:  24px;
 }
 .ayetabs-byindex .ayetabs-labels li {
-	width:  100px;
+	width:  125px;
 	height:  24px;
 	float:  left;
 	line-height:  24px;
