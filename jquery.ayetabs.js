@@ -1,6 +1,6 @@
 /*
  * jQuery ayetabs
- * ver 0.22 alpha
+ * ver 0.22
  * 2013-07-12
  * by yahiousun
  * license MIT
@@ -10,7 +10,7 @@
 
 	var ayetabs = {
 		name: 'ayetabs',
-		version: '0.22 alpha',
+		version: '0.22',
 		date: '2013-07-12',
 		author: 'yahiousun',
 		url: '',
@@ -42,12 +42,12 @@
 				}
 				self.ayetabs('position'); // position
 
-				var limited = false; // synctab flag
+				var iSynctab = false; // synctab flag
 
 				if (/^[1-9]\d*$/.test(data.synctab)) { // If is integer
 					if (data.synctab > 1) {
 						if (data.synctab < self.find(data.labels).find(data.label).length) {
-							limited = true;
+							iSynctab = true;
 						}
 					} else {
 						$.error('Parameter synctab '+data.synctab+' is too small on jQuery.'+ayetabs.name+'.');
@@ -127,7 +127,7 @@
 							default: 
 								self.find(data.labels).find(data.label).each(function(index) {
 									$(this).bind(data.trigger+'.'+ayetabs.name, function() {
-										if (limited) {
+										if (iSynctab) {
 											synctab($(this), index);
 										}
 										$(this).addClass(data.current).siblings(data.label).removeClass(data.current); // toggle class
